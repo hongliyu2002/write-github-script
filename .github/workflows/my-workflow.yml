@@ -25,7 +25,7 @@ jobs:
           });
           github.rest.projects.createCard({
             column_id: 18704544,
-            note: "Nothing but " + ${{ context.payload.issue }},
+            note: "Nothing but OK",
             content_id: context.payload.issue.key,
             content_type: "Issue",
           });
