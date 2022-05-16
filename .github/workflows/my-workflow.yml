@@ -25,7 +25,6 @@ jobs:
           });
           github.rest.projects.createCard({
             column_id: 18704544,
-            note: "Create card on 18704544",
             content_id: context.payload.issue.id,
             content_type: "Issue",
           });
