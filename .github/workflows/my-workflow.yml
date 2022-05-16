@@ -1,0 +1,25 @@
+name: Learning GitHub Script
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: GitHub Script
+      uses: actions/github-script@v6.1.0
+      with:
+        github-token: ${{ github.token }}
+        user-agent: actions/github-script
+        result-encoding: json
+        debug: true
+        script: |
+          octokit.rest.issues.createComment({
+            owner : context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: context.issue.number,
+            body: "🎉 You've created this issue comment using GitHub Script!!!",
+          });
