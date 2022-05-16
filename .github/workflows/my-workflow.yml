@@ -18,8 +18,13 @@ jobs:
         debug: true
         script: |
           github.rest.issues.createComment({
-            owner : github.context.repo.owner,
-            repo: github.context.repo.repo,
-            issue_number: github.context.issue.number,
+            owner : context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: context.issue.number,
             body: "🎉 You've created this issue comment using GitHub Script!!!",
+          });
+          github.rest.projects.createCard({
+            column_id: 18704544,
+            content_id: context.payload.issue.id,
+            content_type: "Issue",
           });
