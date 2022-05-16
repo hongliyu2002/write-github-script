@@ -9,20 +9,29 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: GitHub Script
+    - name: Checkout
+      uses: actions/checkout@v2.4.2
+  
+    - name: Comment on new issue
       uses: actions/github-script@v6.1.0
       with:
         github-token: ${{ github.token }}
-        user-agent: actions/github-script
-        result-encoding: json
-        debug: true
         script: |
+          const fs = require('fs');
+          const issueBody = fs.readFileSync('.github/ISSUE_RESPONSES/comment.md', 'utf8');
           github.rest.issues.createComment({
             owner : context.repo.owner,
             repo: context.repo.repo,
             issue_number: context.issue.number,
-            body: "🎉 You've created this issue comment using GitHub Script!!!",
+            body: issueBody
           });
+ 
+    - name: Add issue to project board
+      if: contains(github.event.issue.labels.*.name, 'bug')
+      uses: actions/github-script@v6.1.0
+      with:
+        github-token: ${{ github.token }}
+        script: |
           github.rest.projects.createCard({
             column_id: 18704544,
             content_id: context.payload.issue.id,
